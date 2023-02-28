@@ -3,9 +3,9 @@ package wasm
 import (
 	"encoding/json"
 	"fmt"
-	"syscall/js"
 	"strings"
-	
+	"syscall/js"
+
 	"github.com/whosonfirst/go-whosonfirst-placetypes"
 )
 
@@ -29,13 +29,13 @@ func AncestorsFunc() js.Func {
 
 				if err != nil {
 					reject.Invoke(fmt.Sprintf("Failed to create placetype, %v", err))
-					return					
+					return
 				}
 
 				ancestors := placetypes.AncestorsForRoles(pt, roles)
-				
+
 				enc_ancestors, err := json.Marshal(ancestors)
-				
+
 				if err != nil {
 					reject.Invoke(fmt.Sprintf("Failed to marshal ancestors, %v", err))
 					return
@@ -51,4 +51,3 @@ func AncestorsFunc() js.Func {
 		return promiseConstructor.New(handler)
 	})
 }
-

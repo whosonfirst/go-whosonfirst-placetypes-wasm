@@ -17,7 +17,7 @@ func DescendantsFunc() js.Func {
 		str_roles := args[1].String()
 
 		roles := strings.Split(str_roles, ",")
-		
+
 		handler := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
 			resolve := args[0]
@@ -29,13 +29,13 @@ func DescendantsFunc() js.Func {
 
 				if err != nil {
 					reject.Invoke(fmt.Sprintf("Failed to create placetype, %v", err))
-					return					
+					return
 				}
 
 				descendants := placetypes.DescendantsForRoles(pt, roles)
-				
+
 				enc_descendants, err := json.Marshal(descendants)
-				
+
 				if err != nil {
 					reject.Invoke(fmt.Sprintf("Failed to marshal descendants, %v", err))
 					return
@@ -51,4 +51,3 @@ func DescendantsFunc() js.Func {
 		return promiseConstructor.New(handler)
 	})
 }
-

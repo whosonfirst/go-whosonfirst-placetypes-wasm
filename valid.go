@@ -1,16 +1,16 @@
 package wasm
 
 import (
-	"encoding/json"
-	"fmt"
 	"syscall/js"
 
 	"github.com/whosonfirst/go-whosonfirst-placetypes"
 )
 
-func PlacetypesFunc() js.Func {
+func IsValidFunc() js.Func {
 
 	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+
+		str_pt := args[0].String()
 
 		handler := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
@@ -19,16 +19,14 @@ func PlacetypesFunc() js.Func {
 
 			go func() {
 
-				pt, err := placetypes.Placetypes()
+				is_valid := placetypes.IsValidPlacetype(str_pt)
 
-				enc_pt, err := json.Marshal(pt)
-
-				if err != nil {
-					reject.Invoke(fmt.Sprintf("Failed to marshal placetypes, %v", err))
+				if !is_valid {
+					reject.Invoke()
 					return
 				}
 
-				resolve.Invoke(string(enc_pt))
+				resolve.Invoke()
 			}()
 
 			return nil

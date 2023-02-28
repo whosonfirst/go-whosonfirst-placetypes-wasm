@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	wasm "github.com/whosonfirst/go-whosonfirst-placetypes-wasm/http"	
+	wasm "github.com/whosonfirst/go-whosonfirst-placetypes-wasm/http"
 )
 
 //go:embed index.html example.*
