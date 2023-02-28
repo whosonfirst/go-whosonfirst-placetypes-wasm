@@ -98,7 +98,7 @@ go run -mod vendor cmd/example/main.go
 
 Then open `http://localhost:8080` in a  web browser. You should see something like this:
 
-![](docs/images/whosonfirst-placetypes-wasm.png)
+![](docs/images/wof-placetypes-wasm.png)
 
 ## See also
 
