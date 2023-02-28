@@ -100,6 +100,8 @@ Then open `http://localhost:8080` in a  web browser. You should see something li
 
 ![](docs/images/wof-placetypes-wasm.png)
 
+![](docs/images/wof-placetypes-wasm.gif)
+
 ## See also
 
 * https://github.com/whosonfirst/go-whosonfirst-placetypes
