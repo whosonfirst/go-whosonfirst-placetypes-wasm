@@ -39,7 +39,7 @@ Return a JSON-encoded list of all the ancestors for a given placetype.
 Return a JSON-encoded list of all the descendants for a given placetype.
 
 ```
-	whosonfirst_placetypes_ancestors("descendants", "common,optional,common_optional")
+	whosonfirst_placetypes_descendants("region", "common,optional,common_optional")
 	    .then((data) => { ... });
 ```
 
