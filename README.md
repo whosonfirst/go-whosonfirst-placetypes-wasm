@@ -34,6 +34,8 @@ Return a JSON-encoded list of all the ancestors for a given placetype.
 	    .then((data) => { ... });
 ```
 
+The second argument (a comma-separated list of placetype roles to filter results by) is optional. If absent then the "common" role will be assumed.
+
 ### whosonfirst_placetypes_descendants
 
 Return a JSON-encoded list of all the descendants for a given placetype.
@@ -43,19 +45,35 @@ Return a JSON-encoded list of all the descendants for a given placetype.
 	    .then((data) => { ... });
 ```
 
+The second argument (a comma-separated list of placetype roles to filter results by) is optional. If absent then the "common" role will be assumed.
+
+### whosonfirst_placetypes_isvalid
+
+Return success if a placetype is valid or throw an error if not.
+
+```
+	whosonfirst_placetypes_is_valid("region")
+	    .then(() => { console.log("Valid"); })
+	    .catch(() => { console.log("Invalid"); });
+```
 ## Middleware
 
 The `go-whosonfirst-validate-wasm/http` package provides methods for appending static assets and HTML resources to existing web applications to facilitate the use of the `validate_feature` WebAssembly binary. For example:
+
+_Note the use of the `sfomuseum/go-http-wasm` package which is an HTTP middleware package for serving and appending resources to the `wasm_exec.js` JavaScript library._
 
 ```
 package main
 
 import (
 	"embed"
+	"flag"
+	"fmt"
 	"log"
 	"net/http"
 
-	wasm "github.com/whosonfirst/go-whosonfirst-placetypes-wasm/http"
+	placetypes_wasm "github.com/whosonfirst/go-whosonfirst-placetypes-wasm/http"
+	"github.com/sfomuseum/go-http-wasm"
 )
 
 //go:embed index.html example.*
@@ -63,25 +81,34 @@ var FS embed.FS
 
 func main() {
 
-	mux := http.NewServeMux()
+	host := flag.String("host", "localhost", "The host name to listen for requests on")
+	port := flag.Int("port", 8080, "The host port to listen for requests on")
 
-	wasm.AppendAssetHandlers(mux)
+	flag.Parse()
+
+	mux := http.NewServeMux()
 
 	http_fs := http.FS(FS)
 	example_handler := http.FileServer(http_fs)
 
-	wasm_opts := wasm.DefaultWASMOptions()
-	wasm_opts.EnableWASMExec()
+	wasm.AppendAssetHandlers(mux)
 
+	placetypes_wasm.AppendAssetHandlers(mux)
+
+	wasm_opts := wasm.DefaultWASMOptions()
 	example_handler = wasm.AppendResourcesHandler(example_handler, wasm_opts)
+	
+	placetypes_wasm_opts := placetypes_wasm.DefaultWASMOptions()
+	example_handler = placetypes_wasm.AppendResourcesHandler(example_handler, placetypes_wasm_opts)
 
 	mux.Handle("/", example_handler)
 
-	addr := "localhost:8080"
+	addr := fmt.Sprintf("%s:%d", *host, *port)
 	log.Printf("Listening for requests on %s\n", addr)
 
 	http.ListenAndServe(addr, mux)
 }
+
 ```
 
 _Error handling omitted for brevity._
@@ -107,3 +134,5 @@ For example:
 ## See also
 
 * https://github.com/whosonfirst/go-whosonfirst-placetypes
+* https://github.com/sfomuseum/go-http-wasm
+* https://github.com/golang/go/wiki/WebAssembly

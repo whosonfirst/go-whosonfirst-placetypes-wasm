@@ -13,10 +13,14 @@ func AncestorsFunc() js.Func {
 
 	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
+		var roles []string
+		
 		str_pt := args[0].String()
-		str_roles := args[1].String()
 
-		roles := strings.Split(str_roles, ",")
+		if len(args) > 1 {
+			str_roles := args[1].String()
+			roles = strings.Split(str_roles, ",")
+		}
 
 		handler := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
@@ -32,7 +36,13 @@ func AncestorsFunc() js.Func {
 					return
 				}
 
-				ancestors := placetypes.AncestorsForRoles(pt, roles)
+				var ancestors []*placetypes.WOFPlacetype
+
+				if len(roles) == 0 {
+					ancestors = placetypes.Ancestors(pt)					
+				} else {
+					ancestors = placetypes.AncestorsForRoles(pt, roles)
+				}
 
 				enc_ancestors, err := json.Marshal(ancestors)
 
