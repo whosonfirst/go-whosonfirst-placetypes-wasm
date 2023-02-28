@@ -100,6 +100,8 @@ Then open `http://localhost:8080` in a  web browser. You should see something li
 
 ![](docs/images/wof-placetypes-wasm.png)
 
+For example:
+
 ![](docs/images/wof-placetypes-wasm.gif)
 
 ## See also
