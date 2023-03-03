@@ -1,5 +1,5 @@
 GOROOT=$(shell go env GOROOT)
-GOMOD=readonly
+GOMOD=vendor
 
 rebuild:
 	@make wasm
