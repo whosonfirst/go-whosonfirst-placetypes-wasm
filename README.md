@@ -36,6 +36,15 @@ Return a JSON-encoded list of all the ancestors for a given placetype.
 
 The second argument (a comma-separated list of placetype roles to filter results by) is optional. If absent then the "common" role will be assumed.
 
+### whosonfirst_placetypes_children
+
+Return a JSON-encoded list of all the children for a given placetype.
+
+```
+	whosonfirst_placetypes_children("region")
+	    .then((data) => { ... });
+```
+
 ### whosonfirst_placetypes_descendants
 
 Return a JSON-encoded list of all the descendants for a given placetype.
@@ -56,6 +65,16 @@ Return success if a placetype is valid or throw an error if not.
 	    .then(() => { console.log("Valid"); })
 	    .catch(() => { console.log("Invalid"); });
 ```
+
+### whosonfirst_placetypes_parents
+
+Return a JSON-encoded list of all the parent placetypes for a given placetype.
+
+```
+	whosonfirst_placetypes_parents("region")
+	    .then((data) => { ... });
+```
+
 ## Middleware
 
 The `go-whosonfirst-validate-wasm/http` package provides methods for appending static assets and HTML resources to existing web applications to facilitate the use of the `validate_feature` WebAssembly binary. For example:
@@ -73,7 +92,7 @@ import (
 	"net/http"
 
 	placetypes_wasm "github.com/whosonfirst/go-whosonfirst-placetypes-wasm/http"
-	"github.com/sfomuseum/go-http-wasm"
+	wasm_exec "github.com/sfomuseum/go-http-wasm"
 )
 
 //go:embed index.html example.*
@@ -88,15 +107,12 @@ func main() {
 
 	mux := http.NewServeMux()
 
+	wasm_exec.AppendAssetHandlers(mux)
+	placetypes_wasm.AppendAssetHandlers(mux)
+
 	http_fs := http.FS(FS)
 	example_handler := http.FileServer(http_fs)
 
-	wasm.AppendAssetHandlers(mux)
-	placetypes_wasm.AppendAssetHandlers(mux)
-
-	wasm_opts := wasm.DefaultWASMOptions()
-	example_handler = wasm.AppendResourcesHandler(example_handler, wasm_opts)
-	
 	mux.Handle("/", example_handler)
 
 	addr := fmt.Sprintf("%s:%d", *host, *port)
@@ -121,7 +137,7 @@ go run -mod vendor cmd/example/main.go
 
 Then open `http://localhost:8080` in a  web browser. You should see something like this:
 
-![](docs/images/wof-placetypes-wasm.png)
+![](docs/images/wof-placetypes-wasm-2.png)
 
 For example:
 
