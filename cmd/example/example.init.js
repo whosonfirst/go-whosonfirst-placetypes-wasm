@@ -50,8 +50,11 @@ window.addEventListener("load", function load(event){
 		console.log("SAD", err);
 	    });
     };
+
+    // https://github.com/sfomuseum/go-http-wasm
+    // https://github.com/sfomuseum/go-http-wasm/blob/main/static/javascript/sfomuseum.wasm.js
     
-    whosonfirst.placetypes.wasm.init().then(rsp => {
+    sfomuseum.wasm.fetch("wasm/whosonfirst_placetypes.wasm").then(rsp => {
 	
 	whosonfirst_placetypes()
 	    .then((data) => {

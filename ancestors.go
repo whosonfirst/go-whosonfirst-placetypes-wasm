@@ -14,7 +14,7 @@ func AncestorsFunc() js.Func {
 	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
 		var roles []string
-		
+
 		str_pt := args[0].String()
 
 		if len(args) > 1 {
@@ -39,7 +39,7 @@ func AncestorsFunc() js.Func {
 				var ancestors []*placetypes.WOFPlacetype
 
 				if len(roles) == 0 {
-					ancestors = placetypes.Ancestors(pt)					
+					ancestors = placetypes.Ancestors(pt)
 				} else {
 					ancestors = placetypes.AncestorsForRoles(pt, roles)
 				}

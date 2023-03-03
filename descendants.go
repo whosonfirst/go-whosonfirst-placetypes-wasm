@@ -14,14 +14,14 @@ func DescendantsFunc() js.Func {
 	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
 		var roles []string
-		
+
 		str_pt := args[0].String()
 
 		if len(args) > 1 {
 			str_roles := args[1].String()
 			roles = strings.Split(str_roles, ",")
 		}
-		
+
 		handler := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
 			resolve := args[0]
@@ -39,11 +39,11 @@ func DescendantsFunc() js.Func {
 				var descendants []*placetypes.WOFPlacetype
 
 				if len(roles) == 0 {
-					descendants = placetypes.Descendants(pt)					
+					descendants = placetypes.Descendants(pt)
 				} else {
 					descendants = placetypes.DescendantsForRoles(pt, roles)
 				}
-				
+
 				enc_descendants, err := json.Marshal(descendants)
 
 				if err != nil {

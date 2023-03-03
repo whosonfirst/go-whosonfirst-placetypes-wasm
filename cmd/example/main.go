@@ -7,8 +7,8 @@ import (
 	"log"
 	"net/http"
 
-	placetypes_wasm "github.com/whosonfirst/go-whosonfirst-placetypes-wasm/http"
 	"github.com/sfomuseum/go-http-wasm"
+	placetypes_wasm "github.com/whosonfirst/go-whosonfirst-placetypes-wasm/http"
 )
 
 //go:embed index.html example.*
@@ -37,12 +37,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to append placetypes wasm assets handler, %v", err)
 	}
-	
+
 	wasm_opts := wasm.DefaultWASMOptions()
 	example_handler = wasm.AppendResourcesHandler(example_handler, wasm_opts)
-	
-	placetypes_wasm_opts := placetypes_wasm.DefaultWASMOptions()
-	example_handler = placetypes_wasm.AppendResourcesHandler(example_handler, placetypes_wasm_opts)
 
 	mux.Handle("/", example_handler)
 

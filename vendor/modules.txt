@@ -4,7 +4,7 @@ github.com/aaronland/go-http-rewrite
 # github.com/aaronland/go-http-static v0.0.2
 ## explicit; go 1.18
 github.com/aaronland/go-http-static
-# github.com/sfomuseum/go-http-wasm v1.0.0
+# github.com/sfomuseum/go-http-wasm v1.1.0
 ## explicit; go 1.18
 github.com/sfomuseum/go-http-wasm
 github.com/sfomuseum/go-http-wasm/static
