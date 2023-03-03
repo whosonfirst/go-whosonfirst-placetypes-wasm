@@ -9,7 +9,7 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-placetypes"
 )
 
-func AncestorsFunc() js.Func {
+func AncestorsFunc(spec *placetypes.WOFPlacetypeSpecification) js.Func {
 
 	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
@@ -29,7 +29,7 @@ func AncestorsFunc() js.Func {
 
 			go func() {
 
-				pt, err := placetypes.GetPlacetypeByName(str_pt)
+				pt, err := spec.GetPlacetypeByName(str_pt)
 
 				if err != nil {
 					reject.Invoke(fmt.Sprintf("Failed to create placetype, %v", err))
@@ -39,9 +39,9 @@ func AncestorsFunc() js.Func {
 				var ancestors []*placetypes.WOFPlacetype
 
 				if len(roles) == 0 {
-					ancestors = placetypes.Ancestors(pt)
+					ancestors = spec.Ancestors(pt)
 				} else {
-					ancestors = placetypes.AncestorsForRoles(pt, roles)
+					ancestors = spec.AncestorsForRoles(pt, roles)
 				}
 
 				enc_ancestors, err := json.Marshal(ancestors)

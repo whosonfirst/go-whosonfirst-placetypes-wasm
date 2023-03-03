@@ -6,7 +6,7 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-placetypes"
 )
 
-func IsValidFunc() js.Func {
+func IsValidFunc(spec *placetypes.WOFPlacetypeSpecification) js.Func {
 
 	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
@@ -19,7 +19,7 @@ func IsValidFunc() js.Func {
 
 			go func() {
 
-				is_valid := placetypes.IsValidPlacetype(str_pt)
+				is_valid := spec.IsValidPlacetype(str_pt)
 
 				if !is_valid {
 					reject.Invoke()

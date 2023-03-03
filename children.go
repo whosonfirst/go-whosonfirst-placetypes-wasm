@@ -8,9 +8,11 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-placetypes"
 )
 
-func PlacetypesFunc(spec *placetypes.WOFPlacetypeSpecification) js.Func {
+func ChildrenFunc(spec *placetypes.WOFPlacetypeSpecification) js.Func {
 
 	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+
+		str_pt := args[0].String()
 
 		handler := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
@@ -19,16 +21,23 @@ func PlacetypesFunc(spec *placetypes.WOFPlacetypeSpecification) js.Func {
 
 			go func() {
 
-				pt, err := spec.Placetypes()
-
-				enc_pt, err := json.Marshal(pt)
+				pt, err := spec.GetPlacetypeByName(str_pt)
 
 				if err != nil {
-					reject.Invoke(fmt.Sprintf("Failed to marshal placetypes, %v", err))
+					reject.Invoke(fmt.Sprintf("Failed to retrieve placetype with name %s, %v", str_pt, err))
 					return
 				}
 
-				resolve.Invoke(string(enc_pt))
+				children := spec.Children(pt)
+
+				enc_children, err := json.Marshal(children)
+
+				if err != nil {
+					reject.Invoke(fmt.Sprintf("Failed to marshal children, %v", err))
+					return
+				}
+
+				resolve.Invoke(string(enc_children))
 			}()
 
 			return nil
