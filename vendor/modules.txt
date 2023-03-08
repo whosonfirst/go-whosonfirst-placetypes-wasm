@@ -11,7 +11,7 @@ github.com/aaronland/go-roster
 ## explicit; go 1.18
 github.com/dominikbraun/graph
 github.com/dominikbraun/graph/draw
-# github.com/sfomuseum/go-http-wasm v1.1.0
+# github.com/sfomuseum/go-http-wasm v1.1.1
 ## explicit; go 1.18
 github.com/sfomuseum/go-http-wasm
 github.com/sfomuseum/go-http-wasm/static

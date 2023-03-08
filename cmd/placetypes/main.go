@@ -34,12 +34,16 @@ func main() {
 	isvalid_func := wasm.IsValidFunc(spec)
 	defer isvalid_func.Release()
 
+	iscore_func := wasm.IsCoreFunc(spec)
+	defer iscore_func.Release()
+
 	js.Global().Set("whosonfirst_placetypes_descendants", descendants_func)
 	js.Global().Set("whosonfirst_placetypes_ancestors", ancestors_func)
 	js.Global().Set("whosonfirst_placetypes_children", children_func)
 	js.Global().Set("whosonfirst_placetypes_parents", parents_func)
 
 	js.Global().Set("whosonfirst_placetypes_is_valid", isvalid_func)
+	js.Global().Set("whosonfirst_placetypes_is_core", iscore_func)
 	js.Global().Set("whosonfirst_placetypes", placetypes_func)
 
 	c := make(chan struct{}, 0)

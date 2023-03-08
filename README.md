@@ -56,6 +56,16 @@ Return a JSON-encoded list of all the descendants for a given placetype.
 
 The second argument (a comma-separated list of placetype roles to filter results by) is optional. If absent then the "common" role will be assumed.
 
+### whosonfirst_placetypes_core
+
+Return success if a placetype is considered to be a "core" Who's On First placetype or throws and error if not.
+
+```
+	whosonfirst_placetypes_is_core("region")
+	    .then(() => { console.log("Core"); })
+	    .catch(() => { console.log("Not core"); });
+```
+
 ### whosonfirst_placetypes_isvalid
 
 Return success if a placetype is valid or throw an error if not.
